@@ -1,0 +1,122 @@
+Sub CARGOB()
+
+   
+
+    'Declaramos nuestras variables
+
+    On Error Resume Next
+
+    Dim TotalSheets As Integer
+
+    Dim T As Integer
+
+   
+
+    'Contamos nuestras Variables
+
+    TotalSheets = ThisWorkbook.Sheets.Count + 1
+
+   
+
+ 
+
+    Sheets.Add Before:=Sheets(1)
+
+    ActiveSheet.Name = "CONSOLIDADO"
+
+    Range("A1").Value = "AUXILIAR"
+
+    Range("B1").Value = "REFERECIA"
+
+    Range("C1").Value = "IMPORTE"
+
+    Range("D1").Value = "IMPORTE"
+
+    Range("E1").Value = "FECHA"
+
+    Range("F1").Value = "PLAZA"
+
+    Range("G1").Value = "1er Seg"
+
+    Range("H1").Value = "2do Seg"
+
+    Range("I1").Value = "3er Seg"
+
+    Range("J1").Value = "Status"
+
+    Range("K1").Value = "Status"
+
+    Range("L1").Value = "COMENTARIO"
+
+   
+
+    For i = 2 To TotalSheets
+
+   
+
+        Sheets(i).Select
+
+        ActiveSheet.ShowAllData
+
+        ActiveSheet.Range("$A$1:$L$5").AutoFilter Field:=10, Criteria1:= _
+
+        "<>CONCILIADO", Operator:=xlAnd
+
+        ActiveSheet.Range("$A$1:$L$5").AutoFilter Field:=11, Criteria1:= _
+
+        "<>CONCILIADO", Operator:=xlAnd
+
+       
+
+    T = Range("A1").CurrentRegion.Rows.Count
+
+       
+
+        Range("A2:L" & T).Select
+
+        Selection.Copy
+
+       
+
+        Sheets("CONSOLIDADO").Select
+
+        Range("A200").Select
+
+        Selection.End(xlUp).Select
+
+        ActiveCell.Offset(1, 0).Range("A1").Select
+
+        ActiveSheet.Paste
+
+        Application.CutCopyMode = False
+
+       
+
+    Next i
+
+   
+
+ 
+
+Sheets("CONSOLIDADO").Range("A1").Select
+
+    Range("A2").Select
+
+    Selection.Copy
+
+    Range("A1:L1").Select
+
+    Selection.PasteSpecial Paste:=xlPasteFormats, Operation:=xlNone, _
+
+        SkipBlanks:=False, Transpose:=False
+
+    Application.CutCopyMode = False
+
+    Range("A1").Select
+
+MsgBox "Lineas Consolidadas.", vbOKOnly, "Stephen Help."
+
+ 
+
+End Sub
+
